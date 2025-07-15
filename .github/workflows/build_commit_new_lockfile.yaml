@@ -51,3 +51,20 @@ jobs:
           echo "--- Contents of ${OUTPUT_FILE_NAME} ---"
           cat "${OUTPUT_FILE_NAME}"
           echo "---------------------------------------"
+
+      - name: Configure Git
+        run: |
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+          
+      - name: Commit and push if changed
+        run: |
+          git add pyproject.toml jax_ml_ecosystem_requirements_lock_*.txt
+
+          if ! git diff --staged --quiet; then
+            echo "Changes detected. Committing and pushing..."
+            git commit -m "chore(deps): Update generated lockfiles for Python ${{ matrix.python-version }}"
+            git push
+          else
+            echo "No changes to commit."
+          fi
