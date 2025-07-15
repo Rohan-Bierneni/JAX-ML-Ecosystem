@@ -29,7 +29,7 @@ if [ $? -ne 0 ]; then
     exit 1
 fi
 
-uv add --python ${python_version} --no-sync --resolution=highest -r requirements.txt --constraint "$SEED_LOCK_FILE"
+uv add --python ${python_version} --no-sync --resolution=highest -r "$SEED_LOCK_FILE" -r requirements.txt
 
 uv export --python ${python_version} --locked --no-hashes --no-annotate --resolution=highest --output-file="$output_file_name"
 
