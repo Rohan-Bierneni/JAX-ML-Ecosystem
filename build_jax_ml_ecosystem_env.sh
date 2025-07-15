@@ -1,8 +1,8 @@
 #!/bin/bash
 
-if [ "$#" -ne 2 ]; then
+if [ "$#" -ne 3 ]; then
     echo "Error: Invalid number of arguments."
-    echo "Usage: $0 <input_jax_lockfile_url> <output_file_name>"
+    echo "Usage: $0 <input_jax_lockfile_url> <output_file_name> <python_version>"
     exit 1
 fi
 
