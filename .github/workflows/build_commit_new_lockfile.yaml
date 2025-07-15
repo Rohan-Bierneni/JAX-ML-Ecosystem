@@ -37,7 +37,7 @@ jobs:
           chmod +x ./build_jax_ml_ecosystem_env.sh
 
           # Define the correct lock file URL and output name for the current Python version
-          JAX_LOCK_URL="https://raw.githubusercontent.com/google/jax/main/build/requirements_lock_${{ matrix.python-version }}.txt"
+          JAX_LOCK_URL="https://raw.githubusercontent.com/jax-ml/jax/c09b1bb763d846a694f919e5a5adda9575ce66d6/build/requirements_lock_${{ matrix.python-version }}.txt"
           OUTPUT_FILE_NAME="jax_ml_ecosystem_requirements_lock_${{ matrix.python-version }}.txt"
 
           ./build_jax_ml_ecosystem_env.sh "$JAX_LOCK_URL" "$OUTPUT_FILE_NAME" "${{ matrix.python-version }}"
