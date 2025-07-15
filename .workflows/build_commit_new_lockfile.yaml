@@ -1,0 +1,43 @@
+name: Test Environment Generation Script
+
+on:
+  # Allow manual triggering from the Actions tab
+  workflow_dispatch:
+
+jobs:
+  test-script:
+    runs-on: ubuntu-latest
+    
+    # Use a matrix to test against multiple Python versions
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ['3.12']
+
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v4
+
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Install uv
+        run: |
+          curl -LsSf https://astral.sh/uv/install.sh | sh
+          source "$HOME/.cargo/env"
+          echo "$HOME/.cargo/bin" >> $GITHUB_PATH
+
+      - name: Install dependencies for helper script
+        run: pip install toml
+
+      - name: Run generation script for Python ${{ matrix.python-version }}
+        run: |
+          chmod +x ./build_jax_ml_ecosystem_env.sh
+
+          # Define the correct lock file URL and output name for the current Python version
+          JAX_LOCK_URL="https://raw.githubusercontent.com/google/jax/main/build/requirements_lock_${{ matrix.python-version }}.txt"
+          OUTPUT_FILE_NAME="jax_ml_ecosystem_requirements_lock_${{ matrix.python-version }}.txt"
+
+          ./build_jax_ml_ecosystem_env.sh "$JAX_LOCK_URL" "$OUTPUT_FILE_NAME" "${{ matrix.python-version }}"
