@@ -41,3 +41,10 @@ jobs:
           OUTPUT_FILE_NAME="jax_ml_ecosystem_requirements_lock_${{ matrix.python-version }}.txt"
 
           ./build_jax_ml_ecosystem_env.sh "$JAX_LOCK_URL" "$OUTPUT_FILE_NAME" "${{ matrix.python-version }}"
+      
+      - name: Display Generated Lock File
+        run: |
+          OUTPUT_FILE_NAME="jax_ml_ecosystem_requirements_lock_${{ matrix.python-version }}.txt"
+          echo "--- Contents of ${OUTPUT_FILE_NAME} ---"
+          cat "${OUTPUT_FILE_NAME}"
+          echo "---------------------------------------"
